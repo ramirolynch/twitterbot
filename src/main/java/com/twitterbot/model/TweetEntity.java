@@ -26,5 +26,11 @@ public class TweetEntity {
 		this.post = post;
 		this.createdTimestamp = createdTimestamp;
 	}
+	
+	@Override
+	public String toString(){
+		return "Tweet posted: " + post + "at : " + createdTimestamp.toString();
+	}
+	
 
 }

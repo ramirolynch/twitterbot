@@ -53,7 +53,11 @@ public class ChatGPT implements ApplicationListener<ApplicationReadyEvent> {
 
 			TweetEntity tweet = new TweetEntity(choice.getText(), createdTimestamp);
 
-			tweetRepository.save(tweet);
+			TweetEntity savedTweet = tweetRepository.save(tweet);
+			
+			System.out.println(savedTweet.toString());
+			
+			
 
 		}
 

@@ -35,19 +35,19 @@ public class TweetBot implements ApplicationListener<ApplicationReadyEvent> {
 
 		log.info("ApplicationListener#onApplicationEvent()");
 
-		try {
-			TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
-
-					.accessToken(accessToken).accessTokenSecret(accessTokenSecret).apiKey(apiKey).apiSecretKey(apiKeySecret)
-					.build());
-
-			Tweet tweetSent = twitterClient.postTweet("tweet with credentials in the application properties");
-
-			System.out.println("Tweet id sent: " + tweetSent.getId());
-
-		} catch (Exception e) {
-			log.info("error :" + e);
-		}
+//		try {
+//			TwitterClient twitterClient = new TwitterClient(TwitterCredentials.builder()
+//
+//					.accessToken(accessToken).accessTokenSecret(accessTokenSecret).apiKey(apiKey).apiSecretKey(apiKeySecret)
+//					.build());
+//
+//			Tweet tweetSent = twitterClient.postTweet("tweet with credentials in the application properties");
+//
+//			System.out.println("Tweet id sent: " + tweetSent.getId());
+//
+//		} catch (Exception e) {
+//			log.info("error :" + e);
+//		}
 
 	}
 
