@@ -29,7 +29,7 @@ public class TweetEntity {
 	
 	@Override
 	public String toString(){
-		return "Tweet posted: " + post + "at : " + createdTimestamp.toString();
+		return "Tweet posted: " + post + " at : " + createdTimestamp.toString();
 	}
 	
 
