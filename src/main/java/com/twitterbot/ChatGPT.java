@@ -38,28 +38,18 @@ public class ChatGPT implements ApplicationListener<ApplicationReadyEvent> {
 		OpenAiService service = new OpenAiService(apiKeys);
 
 		CompletionRequest completionRequest = CompletionRequest.builder()
-				.prompt("Write a funny 140 character tweet about basketball").model("text-davinci-003").echo(true)
-				.build();
-		service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+				.prompt("write a complete one liner joke in the style of Steven Wright").model("text-davinci-003")
+				.maxTokens(1000).echo(false).build();
 
-		System.out.println(service.createCompletion(completionRequest).getChoices().toString());
+		//service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
 
 		List<CompletionChoice> choices = service.createCompletion(completionRequest).getChoices();
+
 		for (CompletionChoice choice : choices) {
-			System.out.println(choice.getText().length());
-			System.out.println(choice.getText());
-
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-
 			TweetEntity tweet = new TweetEntity(choice.getText(), createdTimestamp);
-
 			TweetEntity savedTweet = tweetRepository.save(tweet);
-			
-			System.out.println(savedTweet.toString());
-			
-			
-
+			System.out.println(savedTweet);
 		}
-
 	}
 }
