@@ -23,7 +23,7 @@ public class SchedulingConfig {
 	private ChatGptService chatGptService;
 
 	// method in service class, annotated with fixed time and time unit
-	@Scheduled(cron = "2 9,10,11 * * ?")
+	@Scheduled(cron = "2 9,10,11 * * * ?")
 	public void startBot() {
 		String joke = chatGptService.getJoke("please provide a short philosophical joke");
 		tweetService.sendTweet(joke);
