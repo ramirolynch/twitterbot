@@ -1,7 +1,5 @@
 package com.twitterbot;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +21,7 @@ public class SchedulingConfig {
 	private ChatGptService chatGptService;
 
 	// method in service class, annotated with fixed time and time unit
-	@Scheduled(cron = "2 9,10,11 * * * ?")
+	@Scheduled(cron = "2,35 9,10,11,18,19 * * * ?")
 	public void startBot() {
 		String joke = chatGptService.getJoke("please provide a short philosophical joke");
 		tweetService.sendTweet(joke);
