@@ -25,7 +25,7 @@ public class SchedulingConfig {
 	// method in service class, annotated with fixed time and time unit
 	@Scheduled(fixedRate = 12, timeUnit = TimeUnit.HOURS)
 	public void startBot() {
-		String joke = chatGptService.getJoke("write short sentence with something motivational about Ramiro");
+		String joke = chatGptService.getJoke("write a fact about Mitch Trubisky");
 		tweetService.sendTweet(joke);
 		System.out.println("Tweet sent");
 	}
