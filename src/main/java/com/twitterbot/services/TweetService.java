@@ -6,6 +6,6 @@ public interface TweetService {
 	
 	public String getOldestTweet();
 
-	public String deleteOldestTweet();
+	public void deleteOldestTweet();
 
 }

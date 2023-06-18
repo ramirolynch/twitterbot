@@ -1,15 +1,14 @@
 package com.twitterbot.services.impl;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.twitterbot.model.TweetEntity;
 import com.twitterbot.repositories.TweetRepository;
 import com.twitterbot.services.TweetService;
 
@@ -51,23 +50,19 @@ public class TweetServiceImpl implements TweetService {
 
 	@Override
 	public String getOldestTweet() {
-        Pageable pageable = PageRequest.of(0, 1);
-        List<String> oldestTweets = tweetRepository.getOldestTweet(pageable);
-        return oldestTweets.isEmpty() ? null : oldestTweets.get(0);
-    }
-	
-	@Override
-	public String deleteOldestTweet() {
-	    Pageable pageable = PageRequest.of(0, 1);
-	    List<String> oldestTweets = tweetRepository.getOldestTweet(pageable);
-	    if (oldestTweets.isEmpty()) {
-	        return null; // No oldest tweet found
-	    } else {
-	        String oldestTweet = oldestTweets.get(0);
-	        tweetRepository.deleteOldestTweet(oldestTweet);
-	        return oldestTweet;
-	    }
+		Optional<TweetEntity> oldestTweetOptional = tweetRepository.findFirstByOrderByIdAsc();
+		return oldestTweetOptional.map(TweetEntity::getPost).orElse(null);
 	}
 
+	@Override
+	public void deleteOldestTweet() {
+		Optional<TweetEntity> oldestTweetOptional = tweetRepository.findFirstByOrderByIdAsc();
+		if (!oldestTweetOptional.isEmpty()) {
+			TweetEntity oldestTweetId = oldestTweetOptional.get();
+			oldestTweetId.getId();
+			tweetRepository.deleteById(oldestTweetId.getId());
+		}
+
+	}
 
 }

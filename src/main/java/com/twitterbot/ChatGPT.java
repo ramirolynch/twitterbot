@@ -47,7 +47,8 @@ public class ChatGPT implements ApplicationListener<ApplicationReadyEvent> {
 
 		for (CompletionChoice choice : choices) {
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-			TweetEntity tweet = new TweetEntity(choice.getText().trim(), createdTimestamp);
+			String post = choice.getText().trim().replaceAll("^\"|\"$", "");
+			TweetEntity tweet = new TweetEntity(post, createdTimestamp);
 			TweetEntity savedTweet = tweetRepository.save(tweet);
 			System.out.println(savedTweet);
 		}

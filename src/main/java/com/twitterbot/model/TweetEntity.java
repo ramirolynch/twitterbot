@@ -21,16 +21,29 @@ public class TweetEntity {
 	Long id;
 	String post;
 	ZonedDateTime createdTimestamp;
+	
+    public TweetEntity() {
+    }
 
 	public TweetEntity(String post, ZonedDateTime createdTimestamp) {
 		this.post = post;
 		this.createdTimestamp = createdTimestamp;
 	}
-	
+
 	@Override
-	public String toString(){
-		return "Tweet posted: " + post + " at : " + createdTimestamp.toString();
+	public String toString() {
+		if (post == null || post.isEmpty()) {
+			return ""; // or return some default value if desired
+		}
+		return post;
 	}
-	
+
+	public String getPost() {
+		return this.post;
+	}
+
+	public Long getId() {
+		return this.id;
+	}
 
 }
