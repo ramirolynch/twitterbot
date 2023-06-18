@@ -56,5 +56,19 @@ public class TweetServiceImpl implements TweetService {
         List<String> oldestTweets = tweetRepository.getOldestTweet(pageable);
         return oldestTweets.isEmpty() ? null : oldestTweets.get(0);
     }
+	
+	@Override
+	public String deleteOldestTweet() {
+	    Pageable pageable = PageRequest.of(0, 1);
+	    List<String> oldestTweets = tweetRepository.getOldestTweet(pageable);
+	    if (oldestTweets.isEmpty()) {
+	        return null; // No oldest tweet found
+	    } else {
+	        String oldestTweet = oldestTweets.get(0);
+	        tweetRepository.deleteOldestTweet(oldestTweet);
+	        return oldestTweet;
+	    }
+	}
+
 
 }
