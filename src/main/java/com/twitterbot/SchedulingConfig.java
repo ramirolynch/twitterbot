@@ -21,7 +21,7 @@ public class SchedulingConfig {
 	private ChatGptService chatGptService;
 
 	// method in service class, annotated with fixed time and time unit
-	@Scheduled(fixedDelayString="PT10M", initialDelay=10000L)
+	@Scheduled(fixedDelayString="PT10H", initialDelay=10000L)
 	public void startBot() throws InterruptedException {
 		String joke = chatGptService.getJoke("write a fact about Java, for learning purposes");
 		tweetService.sendTweet(joke);
