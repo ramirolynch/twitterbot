@@ -1,10 +1,17 @@
 package com.twitterbot.services.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.twitterbot.repositories.TweetRepository;
 import com.twitterbot.services.TweetService;
 
 import io.github.redouane59.twitter.TwitterClient;
@@ -28,6 +35,9 @@ public class TweetServiceImpl implements TweetService {
 	@Value("${app.twitter.access-token-secret}")
 	private String accessTokenSecret;
 
+	@Autowired
+	TweetRepository tweetRepository;
+
 	@Override
 	public void sendTweet(String post) {
 		try {
@@ -39,4 +49,12 @@ public class TweetServiceImpl implements TweetService {
 			log.info("error :" + e);
 		}
 	}
+
+	@Override
+	public String getOldestTweet() {
+        Pageable pageable = PageRequest.of(0, 1);
+        List<String> oldestTweets = tweetRepository.getOldestTweet(pageable);
+        return oldestTweets.isEmpty() ? null : oldestTweets.get(0);
+    }
+
 }
