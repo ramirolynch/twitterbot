@@ -22,18 +22,6 @@ public class SchedulingConfig {
 	@Autowired
 	private TweetService tweetService;
 
-	@Autowired
-	private ChatGptService chatGptService;
-
-	// method in service class, annotated with fixed time and time unit
-	@Scheduled(fixedDelayString = "PT10H", initialDelay = 10000L)
-	public void postJava() throws InterruptedException {
-		String post = chatGptService.getJoke("provide some java code for learning purposes");
-		tweetService.sendTweet(post);
-		log.info("Java Code Posted");
-		Thread.sleep(10000L);
-	}
-
 	@Scheduled(fixedDelayString = "PT12H", initialDelay = 10000L)
 	public void postJoke() throws InterruptedException {
 		String post = tweetService.getOldestTweet();
