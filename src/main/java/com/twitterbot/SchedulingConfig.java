@@ -25,9 +25,6 @@ public class SchedulingConfig {
 	@Autowired
 	private ChatGptService chatGptService;
 
-	@Autowired
-	private TweetRepository tweetRepository;
-
 	// method in service class, annotated with fixed time and time unit
 	@Scheduled(fixedDelayString = "PT10H", initialDelay = 10000L)
 	public void postJava() throws InterruptedException {
