@@ -26,8 +26,13 @@ public class SchedulingConfig {
 	public void postJoke() throws InterruptedException {
 		String post = tweetService.getOldestTweet();
 		tweetService.sendTweet(post);
-		tweetService.deleteOldestTweet();
-		log.info("Joke Posted");
+		String deletedTweet = tweetService.deleteOldestTweet();
+		
+		if (deletedTweet != null) {
+		    log.info("Tweet posted and deleted: {}", deletedTweet);
+		} else {
+		    log.info("No tweet was deleted.");
+		}
 		Thread.sleep(10000L);
 	}
 }
