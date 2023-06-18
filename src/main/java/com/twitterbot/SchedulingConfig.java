@@ -8,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.twitterbot.repositories.TweetRepository;
-import com.twitterbot.services.ChatGptService;
 import com.twitterbot.services.TweetService;
 
 @Configuration
