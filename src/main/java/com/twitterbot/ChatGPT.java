@@ -1,5 +1,6 @@
 package com.twitterbot;
 
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class ChatGPT implements ApplicationListener<ApplicationReadyEvent> {
 
 		for (CompletionChoice choice : choices) {
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-			TweetEntity tweet = new TweetEntity(choice.getText(), createdTimestamp);
+			TweetEntity tweet = new TweetEntity(choice.getText().trim(), createdTimestamp);
 			TweetEntity savedTweet = tweetRepository.save(tweet);
 			System.out.println(savedTweet);
 		}
