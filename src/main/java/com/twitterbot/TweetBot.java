@@ -8,10 +8,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import io.github.redouane59.twitter.TwitterClient;
-import io.github.redouane59.twitter.dto.tweet.Tweet;
-import io.github.redouane59.twitter.signature.TwitterCredentials;
-
 @Component
 @Order(1)
 public class TweetBot implements ApplicationListener<ApplicationReadyEvent> {
