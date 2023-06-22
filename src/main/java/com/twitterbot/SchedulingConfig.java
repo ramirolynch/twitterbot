@@ -20,7 +20,7 @@ public class SchedulingConfig {
 	@Autowired
 	private TweetService tweetService;
 
-	@Scheduled(fixedDelayString = "PT3H", initialDelay = 10000L)
+	@Scheduled(fixedDelayString = "PT6H", initialDelay = 10000L)
 	public void postJoke() throws InterruptedException {
 		String post = tweetService.getOldestTweet();
 		tweetService.sendTweet(post);
