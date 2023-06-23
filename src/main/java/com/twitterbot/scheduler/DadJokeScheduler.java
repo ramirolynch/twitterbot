@@ -46,7 +46,7 @@ public class DadJokeScheduler {
 		}
 		
 		ZonedDateTime createdTimestamp = ZonedDateTime.now();
-		String post = setup + "\n" + punchline + "\n" + "written by: " + authorName + " #joke";
+		String post = setup + "\n" + punchline + "\n" + "written by: " + authorName;
 		TweetEntity tweet = new TweetEntity(post, createdTimestamp);
 		TweetEntity savedTweet = tweetRepository.save(tweet);
 		
