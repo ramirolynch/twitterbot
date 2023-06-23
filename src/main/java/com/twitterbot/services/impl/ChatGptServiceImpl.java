@@ -10,12 +10,11 @@ import org.springframework.stereotype.Service;
 import com.theokanning.openai.completion.CompletionChoice;
 import com.theokanning.openai.completion.CompletionRequest;
 import com.theokanning.openai.service.OpenAiService;
-import com.twitterbot.ChatGPT;
 import com.twitterbot.services.ChatGptService;
 
 @Service
 public class ChatGptServiceImpl implements ChatGptService {
-	private static final Logger log = LoggerFactory.getLogger(ChatGPT.class);
+	private static final Logger log = LoggerFactory.getLogger(ChatGptServiceImpl.class);
 
 	@Value("${app.twitter.open-ai}")
 	private String apiKeys;
