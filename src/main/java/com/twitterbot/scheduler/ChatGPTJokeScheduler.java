@@ -51,7 +51,6 @@ public class ChatGPTJokeScheduler {
 		for (CompletionChoice choice : choices) {
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
 			String post = choice.getText().trim().replaceAll("^\"|\"$", "");
-			post = post + " #joke";
 			TweetEntity tweet = new TweetEntity(post, createdTimestamp);
 			TweetEntity savedTweet = tweetRepository.save(tweet);
 			log.info("From ChatGPTJokeScheduler saveJoke(): " + savedTweet.toString());
