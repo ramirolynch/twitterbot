@@ -1,5 +1,6 @@
 package com.twitterbot.services.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -11,6 +12,9 @@ import com.twitterbot.services.DadJokesService;
 @Service
 public class DadJokesServiceImpl implements DadJokesService  {
 	
+	@Value("${app.twitter.dadjokes-api-key}")
+	private String apiKey;
+	
 	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
@@ -19,7 +23,7 @@ public class DadJokesServiceImpl implements DadJokesService  {
 
 		WebClient.ResponseSpec responseSpec = client.get()
 			    .uri("https://dad-jokes.p.rapidapi.com/random/joke")
-			    .header("X-RapidAPI-Key", "06b8cbe1f1mshc78c3e966686f05p1648b7jsnc8204dda4e82")
+			    .header("X-RapidAPI-Key", apiKey)
 			    .header("X-RapidAPI-Host", "dad-jokes.p.rapidapi.com")
 			    .retrieve();
 		String response = responseSpec.bodyToMono(String.class).block();
