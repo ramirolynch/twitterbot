@@ -38,22 +38,41 @@ public class ChatGPTJokeScheduler {
 	@Scheduled(fixedDelayString = "PT7H", initialDelay = 10000L)
 	public void saveJoke() throws InterruptedException {
 
+		int maxAttempts = 3; // Maximum number of attempts to generate a suitable joke
+		int attempts = 0; // Counter for attempts
+		boolean longTweet = true;
+
 		OpenAiService service = new OpenAiService(apiKeys);
 
-		CompletionRequest completionRequest = CompletionRequest.builder()
-				.prompt("write an original one-liner joke").model("text-davinci-003")
-				.maxTokens(1000).echo(false).build();
+		while (longTweet && attempts < maxAttempts) {
 
-		// service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
+			CompletionRequest completionRequest = CompletionRequest.builder().prompt("write an original one-liner joke")
+					.model("text-davinci-003").maxTokens(1000).echo(false).build();
 
-		List<CompletionChoice> choices = service.createCompletion(completionRequest).getChoices();
+			// service.createCompletion(completionRequest).getChoices().forEach(System.out::println);
 
-		for (CompletionChoice choice : choices) {
-			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-			String post = choice.getText().trim().replaceAll("^\"|\"$", "");
-			TweetEntity tweet = new TweetEntity(post, createdTimestamp);
-			TweetEntity savedTweet = tweetRepository.save(tweet);
-			log.info("From ChatGPTJokeScheduler saveJoke(): " + savedTweet.toString());
+			List<CompletionChoice> choices = service.createCompletion(completionRequest).getChoices();
+
+			for (CompletionChoice choice : choices) {
+				ZonedDateTime createdTimestamp = ZonedDateTime.now();
+				String post = choice.getText().trim().replaceAll("^\"|\"$", "");
+
+				if (post.length() > 280) {
+					longTweet = true;
+					break;
+				} else {
+					longTweet = false;
+				}
+				TweetEntity tweet = new TweetEntity(post, createdTimestamp);
+				TweetEntity savedTweet = tweetRepository.save(tweet);
+				log.info("From ChatGPTJokeScheduler saveJoke(): " + savedTweet.toString());
+			}
+
+			attempts++;
+			if (attempts >= maxAttempts) {
+				log.info("Max number of attempts reached");
+				break;
+			}
 		}
 	}
 }

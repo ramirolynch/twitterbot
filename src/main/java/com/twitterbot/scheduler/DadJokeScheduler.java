@@ -21,13 +21,13 @@ import com.twitterbot.services.DadJokesService;
 public class DadJokeScheduler {
 
 	private static final Logger log = LoggerFactory.getLogger(DadJokeScheduler.class);
-	
+
 	@Autowired
 	private TweetRepository tweetRepository;
 
 	@Autowired
 	private DadJokesService dadJokesService;
-	
+
 	String setup;
 	String punchline;
 	String authorName;
@@ -35,21 +35,40 @@ public class DadJokeScheduler {
 	@Scheduled(fixedDelayString = "PT5H", initialDelay = 10000L)
 	public void saveJoke() throws InterruptedException {
 
-		DadJokeDTO dadJoke = dadJokesService.getRandomJoke();
+		int maxAttempts = 3; // Maximum number of attempts to generate a suitable joke
+		int attempts = 0; // Counter for attempts
+		boolean longTweet = true;
 
-		DadJokeDTO.Joke[] jokes = dadJoke.getBody(); // Access the array of jokes
+		while (longTweet && attempts < maxAttempts) {
 
-		for (DadJokeDTO.Joke joke : jokes) {
-			setup = joke.getSetup(); // Access the "setup" field
-			punchline = joke.getPunchline(); // Access the "punchline" field
-			authorName = joke.getAuthor().getName();
+			DadJokeDTO dadJoke = dadJokesService.getRandomJoke();
+
+			DadJokeDTO.Joke[] jokes = dadJoke.getBody(); // Access the array of jokes
+
+			for (DadJokeDTO.Joke joke : jokes) {
+				setup = joke.getSetup(); // Access the "setup" field
+				punchline = joke.getPunchline(); // Access the "punchline" field
+				authorName = joke.getAuthor().getName();
+			}
+
+			ZonedDateTime createdTimestamp = ZonedDateTime.now();
+			String post = setup + "\n" + punchline + "\n" + "written by: " + authorName;
+			if (post.length() > 280) {
+				longTweet = true;
+				break;
+			} else {
+				longTweet = false;
+			}
+			TweetEntity tweet = new TweetEntity(post, createdTimestamp);
+			TweetEntity savedTweet = tweetRepository.save(tweet);
+
+			log.info("From DadJokeScheduler saveJoke(): " + savedTweet.toString());
+
+			attempts++;
+			if (attempts >= maxAttempts) {
+				log.info("Max number of attempts reached");
+				break;
+			}
 		}
-		
-		ZonedDateTime createdTimestamp = ZonedDateTime.now();
-		String post = setup + "\n" + punchline + "\n" + "written by: " + authorName;
-		TweetEntity tweet = new TweetEntity(post, createdTimestamp);
-		TweetEntity savedTweet = tweetRepository.save(tweet);
-		
-		log.info("From DadJokeScheduler saveJoke(): " + savedTweet.toString());
 	}
 }
