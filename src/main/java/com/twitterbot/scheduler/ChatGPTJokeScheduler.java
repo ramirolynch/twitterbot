@@ -34,8 +34,8 @@ public class ChatGPTJokeScheduler {
 	String setup;
 	String punchline;
 	String authorName;
-
-	@Scheduled(fixedDelayString = "PT7H", initialDelay = 10000L)
+	
+	@Scheduled(cron = "-")
 	public void saveJoke() throws InterruptedException {
 
 		int maxAttempts = 3; // Maximum number of attempts to generate a suitable joke
