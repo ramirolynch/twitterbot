@@ -32,7 +32,7 @@ public class DadJokeScheduler {
 	String punchline;
 	String authorName;
 
-	@Scheduled(fixedDelayString = "PT5H", initialDelay = 10000L)
+	@Scheduled(cron = "0 41 13 * * *")
 	public void saveJoke() throws InterruptedException {
 
 		int maxAttempts = 3; // Maximum number of attempts to generate a suitable joke
