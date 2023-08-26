@@ -31,7 +31,8 @@ public class DadJokeScheduler {
 	String setup;
 	String punchline;
 	String authorName;
-
+	
+	@Scheduled(cron = "0 55 16 * * *")
 	@Scheduled(cron = "0 55 14 * * *")
 	@Scheduled(cron = "0 35 18 * * *")
 	public void saveJoke() throws InterruptedException {
