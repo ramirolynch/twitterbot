@@ -22,6 +22,7 @@ public class SendTweetScheduler {
 
 	@Scheduled(fixedDelayString = "PT8H", initialDelay = 10000L)
 	public void postJoke() throws InterruptedException {
+		tweetService.deleteOldestTweet();
 		String post = tweetService.getOldestTweet();
 		tweetService.sendTweet(post);
 		
