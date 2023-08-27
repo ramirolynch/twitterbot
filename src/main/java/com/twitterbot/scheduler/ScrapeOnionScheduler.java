@@ -36,7 +36,7 @@ public class ScrapeOnionScheduler {
 		for (String headline : headlines) {
 
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-			String post = "BREAKING: " + headline + "\n written by: #TheOnion";
+			String post = "BREAKING: " + headline + "\n #TheOnion";
 
 			if (post.length() < 280) {
 				TweetEntity tweet = new TweetEntity(post, createdTimestamp);
