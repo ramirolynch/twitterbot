@@ -1,9 +1,9 @@
 package com.twitterbot.services;
 
-import java.util.List;
+import com.twitterbot.dto.ScrapeOnionDTO;
 
 public interface ScrapingService {
 	
-	List<String> scrapeHeadlines(String url);
+	ScrapeOnionDTO scrapeHeadlines(String url);
 
 }

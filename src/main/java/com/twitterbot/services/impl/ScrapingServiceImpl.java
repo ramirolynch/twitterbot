@@ -1,6 +1,7 @@
 package com.twitterbot.services.impl;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.twitterbot.dto.ScrapeOnionDTO;
 import com.twitterbot.services.ScrapingService;
 
 @Service
@@ -20,7 +22,7 @@ public class ScrapingServiceImpl implements ScrapingService {
 	private static final Logger log = LoggerFactory.getLogger(ScrapingServiceImpl.class);
 
 	@Override
-	public List<String> scrapeHeadlines(String url) {
+	public ScrapeOnionDTO scrapeHeadlines(String url) {
 		Document doc = null;
 		List<String> headlines = new ArrayList<String>();
 		try {
@@ -34,7 +36,7 @@ public class ScrapingServiceImpl implements ScrapingService {
 			log.info("this is link text: " + link.text());
 		}
 	
-		return headlines;
+		return new ScrapeOnionDTO(headlines.size(),headlines,Instant.now());
 	}
 
 }

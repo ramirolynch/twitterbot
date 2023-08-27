@@ -1,7 +1,6 @@
 package com.twitterbot.scheduler;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
+import com.twitterbot.dto.ScrapeOnionDTO;
 import com.twitterbot.model.TweetEntity;
 import com.twitterbot.repositories.TweetRepository;
 import com.twitterbot.services.ScrapingService;
@@ -19,32 +19,32 @@ import com.twitterbot.services.ScrapingService;
 @EnableScheduling
 @ComponentScan("com.twitterbot")
 public class ScrapeOnionScheduler {
-	
+
 	private static final Logger log = LoggerFactory.getLogger(ScrapeOnionScheduler.class);
-	
+
 	@Autowired
 	ScrapingService scrapingService;
-	
+
 	@Autowired
 	TweetRepository tweetRepository;
-	
+
 	@Scheduled(cron = "0 54 3 * * 7")
-	public int scrapeOnionHeadlines() throws InterruptedException  {
+	public int scrapeOnionHeadlines() throws InterruptedException {
 
-		List<String> headlines = scrapingService.scrapeHeadlines("https://www.theonion.com/");
+		ScrapeOnionDTO scrapeOnionDTO = scrapingService.scrapeHeadlines("https://www.theonion.com/");
 
-		for (String headline : headlines) {
+		for (String headline : scrapeOnionDTO.getHeadlines()) {
 
 			ZonedDateTime createdTimestamp = ZonedDateTime.now();
-			String post = "BREAKING: " + headline + "\n #TheOnion";
+			String post = "BREAKING: " + headline + "\n via heOnion";
 
 			if (post.length() < 280) {
 				TweetEntity tweet = new TweetEntity(post, createdTimestamp);
 				tweetRepository.save(tweet);
 				log.info("From ScrapeOnionScheduler scrapeOnionHeadlines(): " + post);
-				
+
 			}
 		}
-		return headlines.size();
+		return scrapeOnionDTO.getNumberOfHeadlines();
 	}
 }
