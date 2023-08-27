@@ -28,7 +28,7 @@ public class ScrapeOnionScheduler {
 	@Autowired
 	TweetRepository tweetRepository;
 	
-	@Scheduled(cron = "0 55 3 * * 6")
+	@Scheduled(cron = "0 51 3 * * 6")
 	public int scrapeOnionHeadlines() throws InterruptedException  {
 
 		List<String> headlines = scrapingService.scrapeHeadlines("https://www.theonion.com/");
