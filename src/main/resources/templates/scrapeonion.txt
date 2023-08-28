@@ -1,0 +1,12 @@
+Hello Admin!
+The Scraping Service for The Onion resulted in a total of %s headlines extracted. They were extracted at:
+%s
+
+The headlines extracted are the following:
+%s
+
+Thanks!
+Twitterbot
+
+
+
